@@ -38,3 +38,19 @@ result["date"] = pd.to_datetime(result["date"])
 """
 
 rprint(result.dtypes)
+# now we can query this to ask for things between dates. Before we could not.
+
+# Next step is to summarize it using pivot tables.
+# Excel has sheets, Pandas has dataframes.
+
+by_product = pd.pivot_table(result, index=["item", "size"], values=["qty"], aggfunc=sum)
+# rprint(by_product)
+
+by_country = pd.pivot_table(result, index=["country"], values=["qty"], aggfunc=sum) # how many specific items sold by country.
+# rprint(by_country)
+
+# Now how do we export these pivots to csv.
+by_product.to_csv(f"{output_path}/by_product.csv") # here we want to include the index because of how the pivot is built above.
+by_country.to_csv(f"{output_path}/by_country.csv") 
+
+# Finished 20240925
